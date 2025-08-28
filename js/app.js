@@ -51,6 +51,7 @@ const checkStatus = (response) => {
 // ------------------------------------------
 //  FETCH FUNCTIONS
 // ------------------------------------------
+// To DRY up code
 const fetchData = (url) => {
   return fetch(url)
     .then(checkStatus)
@@ -58,15 +59,15 @@ const fetchData = (url) => {
     .catch((err) => console.log('Looks like there was a problem', err))
 }
 
-// Get random image from dog.ceo
-fetchData('https://dog.ceo/api/breed/affenpinscher/images/random').then(
-  (data) => generateImage(data.message)
-)
-
-// Get breeds list from dog.ceo
-fetchData('https://dog.ceo/api/breeds/list').then((data) =>
-  generateOptions(data.message)
-)
+Promise.all([
+  fetchData('https://dog.ceo/api/breed/affenpinscher/images/random'),
+  fetchData('https://dog.ceo/api/breeds/list')
+]).then((data) => {
+  const breedList = data[1].message
+  const randomImage = data[0].message
+  generateOptions(breedList)
+  generateImage(randomImage)
+})
 
 // ------------------------------------------
 //  EVENT LISTENERS
