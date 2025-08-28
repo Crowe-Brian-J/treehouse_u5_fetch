@@ -59,8 +59,8 @@ const fetchData = (url) => {
 }
 
 // Get random image from dog.ceo
-fetchData('https://dog.ceo/api/breeds/image/random').then((data) =>
-  generateImage(data.message)
+fetchData('https://dog.ceo/api/breed/affenpinscher/images/random').then(
+  (data) => generateImage(data.message)
 )
 
 // Get breeds list from dog.ceo
